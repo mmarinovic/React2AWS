@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0f172a"/>
+
+  <!-- Logo -->
+  <g transform="translate(80, 180)">
+    <rect width="80" height="80" rx="16" fill="#1e293b"/>
+    <text x="40" y="54" font-family="system-ui, -apple-system, sans-serif" font-size="40" font-weight="700" fill="white" text-anchor="middle">R2</text>
+  </g>
+
+  <!-- Title -->
+  <text x="180" y="235" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="600" fill="white">React2AWS</text>
+
+  <!-- Subtitle -->
+  <text x="80" y="320" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#94a3b8">AWS infrastructure as </text>
+  <text x="418" y="320" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#fb923c">&lt;</text>
+  <text x="438" y="320" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="white">React</text>
+  <text x="530" y="320" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#fb923c">/&gt;</text>
+
+  <!-- Code preview box -->
+  <g transform="translate(80, 380)">
+    <rect width="460" height="170" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+
+    <!-- Window dots -->
+    <circle cx="24" cy="20" r="5" fill="#ef4444"/>
+    <circle cx="42" cy="20" r="5" fill="#eab308"/>
+    <circle cx="60" cy="20" r="5" fill="#22c55e"/>
+    <text x="90" y="24" font-family="monospace" font-size="12" fill="#64748b">infrastructure.jsx</text>
+
+    <!-- Code lines -->
+    <text x="24" y="60" font-family="monospace" font-size="16" fill="#64748b">&lt;</text>
+    <text x="36" y="60" font-family="monospace" font-size="16" fill="#fb923c">VPC</text>
+    <text x="72" y="60" font-family="monospace" font-size="16" fill="#a78bfa">className</text>
+    <text x="156" y="60" font-family="monospace" font-size="16" fill="#64748b">=</text>
+    <text x="168" y="60" font-family="monospace" font-size="16" fill="#34d399">"cidr-10.0.0.0/16"</text>
+    <text x="340" y="60" font-family="monospace" font-size="16" fill="#64748b">&gt;</text>
+
+    <text x="44" y="90" font-family="monospace" font-size="16" fill="#64748b">&lt;</text>
+    <text x="56" y="90" font-family="monospace" font-size="16" fill="#fb923c">RDS</text>
+    <text x="92" y="90" font-family="monospace" font-size="16" fill="#a78bfa">className</text>
+    <text x="176" y="90" font-family="monospace" font-size="16" fill="#64748b">=</text>
+    <text x="188" y="90" font-family="monospace" font-size="16" fill="#34d399">"engine-postgres"</text>
+    <text x="360" y="90" font-family="monospace" font-size="16" fill="#64748b">/&gt;</text>
+
+    <text x="44" y="120" font-family="monospace" font-size="16" fill="#64748b">&lt;</text>
+    <text x="56" y="120" font-family="monospace" font-size="16" fill="#fb923c">Lambda</text>
+    <text x="116" y="120" font-family="monospace" font-size="16" fill="#a78bfa">className</text>
+    <text x="200" y="120" font-family="monospace" font-size="16" fill="#64748b">=</text>
+    <text x="212" y="120" font-family="monospace" font-size="16" fill="#34d399">"runtime-nodejs20"</text>
+    <text x="392" y="120" font-family="monospace" font-size="16" fill="#64748b">/&gt;</text>
+
+    <text x="24" y="150" font-family="monospace" font-size="16" fill="#64748b">&lt;/</text>
+    <text x="44" y="150" font-family="monospace" font-size="16" fill="#fb923c">VPC</text>
+    <text x="80" y="150" font-family="monospace" font-size="16" fill="#64748b">&gt;</text>
+  </g>
+
+  <!-- Arrow -->
+  <g transform="translate(580, 450)">
+    <path d="M0 15 L50 15 M35 0 L50 15 L35 30" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <!-- Output files -->
+  <g transform="translate(670, 380)">
+    <rect width="450" height="170" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+
+    <!-- Window dots -->
+    <circle cx="24" cy="20" r="5" fill="#ef4444"/>
+    <circle cx="42" cy="20" r="5" fill="#eab308"/>
+    <circle cx="60" cy="20" r="5" fill="#22c55e"/>
+    <text x="340" y="24" font-family="monospace" font-size="12" fill="#a78bfa">terraform</text>
+
+    <!-- Terraform output -->
+    <text x="24" y="60" font-family="monospace" font-size="15" fill="#f472b6">resource</text>
+    <text x="96" y="60" font-family="monospace" font-size="15" fill="#34d399">"aws_vpc"</text>
+    <text x="192" y="60" font-family="monospace" font-size="15" fill="#34d399">"main"</text>
+    <text x="252" y="60" font-family="monospace" font-size="15" fill="#64748b">{</text>
+
+    <text x="44" y="90" font-family="monospace" font-size="15" fill="#60a5fa">cidr_block</text>
+    <text x="144" y="90" font-family="monospace" font-size="15" fill="#64748b">=</text>
+    <text x="160" y="90" font-family="monospace" font-size="15" fill="#34d399">"10.0.0.0/16"</text>
+
+    <text x="44" y="120" font-family="monospace" font-size="15" fill="#60a5fa">tags</text>
+    <text x="84" y="120" font-family="monospace" font-size="15" fill="#64748b">= {</text>
+    <text x="116" y="120" font-family="monospace" font-size="15" fill="#60a5fa">Name</text>
+    <text x="164" y="120" font-family="monospace" font-size="15" fill="#64748b">=</text>
+    <text x="180" y="120" font-family="monospace" font-size="15" fill="#34d399">"main"</text>
+    <text x="232" y="120" font-family="monospace" font-size="15" fill="#64748b">}</text>
+
+    <text x="24" y="150" font-family="monospace" font-size="15" fill="#64748b">}</text>
+  </g>
+
+  <!-- Bottom tagline -->
+  <text x="80" y="590" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#64748b">Write JSX with Tailwind CSS-inspired className config. Generate Terraform.</text>
+
+  <!-- Domain -->
+  <text x="1000" y="590" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#94a3b8" font-weight="600">react2aws.com</text>
+</svg>
