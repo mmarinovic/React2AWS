@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" fill="none">
+  <defs>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="rgba(255, 153, 0, 0.03)" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="topGlow" cx="50%" cy="0%" r="80%" fx="50%" fy="0%">
+      <stop offset="0%" stop-color="rgba(255, 153, 0, 0.15)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="200" fill="#0a0a0b"/>
+  <rect width="800" height="200" fill="url(#grid)"/>
+  <rect width="800" height="200" fill="url(#topGlow)"/>
+
+  <text x="400" y="70" text-anchor="middle" font-family="system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="32" font-weight="700" fill="#fafafa">
+    AWS infrastructure as
+  </text>
+
+  <text x="400" y="120" text-anchor="middle" font-family="system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="48" font-weight="700">
+    <tspan fill="#ff9900">&lt;</tspan><tspan fill="#fafafa">React</tspan><tspan fill="#ff9900">/&gt;</tspan>
+  </text>
+
+  <text x="400" y="170" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#ff9900" font-weight="500">
+    react2aws.xyz
+  </text>
+</svg>

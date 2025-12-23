@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="96" fill="#0f172a"/>
+
+  <text x="256" y="340" font-family="system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="200" font-weight="700" text-anchor="middle">
+    <tspan fill="#fb923c">&lt;</tspan><tspan fill="#f8fafc">R2</tspan><tspan fill="#fb923c">/&gt;</tspan>
+  </text>
+</svg>

@@ -1,0 +1,5 @@
+[test]
+preload = ["./src/__tests__/setup.ts"]
+root = "./src/__tests__"
+coverage = true
+coverageDir = "./coverage"

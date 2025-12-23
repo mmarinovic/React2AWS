@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="rgba(255, 153, 0, 0.03)" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="topGlow" cx="50%" cy="0%" r="60%" fx="50%" fy="0%">
+      <stop offset="0%" stop-color="rgba(255, 153, 0, 0.15)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#0a0a0b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0a0a0b"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#topGlow)"/>
+
+  <text x="600" y="100" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="700" fill="#fafafa">
+    AWS infrastructure as
+  </text>
+
+  <text x="600" y="165" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="700">
+    <tspan fill="#ff9900">&lt;</tspan><tspan fill="#fafafa">React</tspan><tspan fill="#ff9900">/&gt;</tspan>
+  </text>
+
+  <g transform="translate(80, 220)">
+    <rect width="480" height="280" rx="12" fill="url(#cardGradient)" stroke="#27272a" stroke-width="1"/>
+    <rect width="480" height="280" rx="12" fill="none" stroke="rgba(255, 153, 0, 0.1)" stroke-width="1" style="filter: blur(8px)"/>
+
+    <circle cx="24" cy="24" r="6" fill="#27272a"/>
+    <circle cx="46" cy="24" r="6" fill="#27272a"/>
+    <circle cx="68" cy="24" r="6" fill="#27272a"/>
+    <text x="100" y="28" font-family="monospace" font-size="12" fill="#71717a">infrastructure.jsx</text>
+
+    <text x="24" y="70" font-family="monospace" font-size="14">
+      <tspan fill="#71717a">&lt;</tspan><tspan fill="#ff9900">Infrastructure</tspan><tspan fill="#71717a">&gt;</tspan>
+    </text>
+    <text x="44" y="100" font-family="monospace" font-size="14">
+      <tspan fill="#71717a">&lt;</tspan><tspan fill="#ff9900">VPC</tspan>
+      <tspan fill="#a855f7"> className</tspan><tspan fill="#71717a">=</tspan><tspan fill="#34d399">"cidr-10.0.0.0/16"</tspan><tspan fill="#71717a">&gt;</tspan>
+    </text>
+    <text x="64" y="130" font-family="monospace" font-size="14">
+      <tspan fill="#71717a">&lt;</tspan><tspan fill="#ff9900">RDS</tspan>
+      <tspan fill="#a855f7"> className</tspan><tspan fill="#71717a">=</tspan><tspan fill="#34d399">"engine-postgres"</tspan>
+      <tspan fill="#71717a"> /&gt;</tspan>
+    </text>
+    <text x="64" y="160" font-family="monospace" font-size="14">
+      <tspan fill="#71717a">&lt;</tspan><tspan fill="#ff9900">Fargate</tspan>
+      <tspan fill="#a855f7"> className</tspan><tspan fill="#71717a">=</tspan><tspan fill="#34d399">"mem-2gb"</tspan>
+      <tspan fill="#71717a"> /&gt;</tspan>
+    </text>
+    <text x="64" y="190" font-family="monospace" font-size="14">
+      <tspan fill="#71717a">&lt;</tspan><tspan fill="#ff9900">Lambda</tspan>
+      <tspan fill="#a855f7"> className</tspan><tspan fill="#71717a">=</tspan><tspan fill="#34d399">"runtime-nodejs22"</tspan>
+      <tspan fill="#71717a"> /&gt;</tspan>
+    </text>
+    <text x="44" y="220" font-family="monospace" font-size="14">
+      <tspan fill="#71717a">&lt;/</tspan><tspan fill="#ff9900">VPC</tspan><tspan fill="#71717a">&gt;</tspan>
+    </text>
+    <text x="24" y="250" font-family="monospace" font-size="14">
+      <tspan fill="#71717a">&lt;/</tspan><tspan fill="#ff9900">Infrastructure</tspan><tspan fill="#71717a">&gt;</tspan>
+    </text>
+  </g>
+
+  <g transform="translate(590, 340)">
+    <path d="M0 20 L40 20 M28 8 L40 20 L28 32" stroke="#71717a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <g transform="translate(660, 220)">
+    <rect width="460" height="280" rx="12" fill="url(#cardGradient)" stroke="#27272a" stroke-width="1"/>
+    <rect width="460" height="280" rx="12" fill="none" stroke="rgba(255, 153, 0, 0.1)" stroke-width="1" style="filter: blur(8px)"/>
+
+    <circle cx="24" cy="24" r="6" fill="#27272a"/>
+    <circle cx="46" cy="24" r="6" fill="#27272a"/>
+    <circle cx="68" cy="24" r="6" fill="#27272a"/>
+    <text x="350" y="28" font-family="monospace" font-size="12" fill="#a855f7">main.tf</text>
+
+    <text x="24" y="70" font-family="monospace" font-size="14">
+      <tspan fill="#f472b6">resource</tspan>
+      <tspan fill="#34d399"> "aws_vpc"</tspan>
+      <tspan fill="#34d399"> "main"</tspan>
+      <tspan fill="#71717a"> {</tspan>
+    </text>
+    <text x="44" y="100" font-family="monospace" font-size="14">
+      <tspan fill="#60a5fa">cidr_block</tspan>
+      <tspan fill="#71717a"> = </tspan>
+      <tspan fill="#34d399">"10.0.0.0/16"</tspan>
+    </text>
+    <text x="24" y="130" font-family="monospace" font-size="14" fill="#71717a">}</text>
+
+    <text x="24" y="170" font-family="monospace" font-size="14">
+      <tspan fill="#f472b6">module</tspan>
+      <tspan fill="#34d399"> "rds"</tspan>
+      <tspan fill="#71717a"> {</tspan>
+    </text>
+    <text x="44" y="200" font-family="monospace" font-size="14">
+      <tspan fill="#60a5fa">source</tspan>
+      <tspan fill="#71717a"> = </tspan>
+      <tspan fill="#34d399">"./modules/rds"</tspan>
+    </text>
+    <text x="44" y="230" font-family="monospace" font-size="14">
+      <tspan fill="#60a5fa">engine</tspan>
+      <tspan fill="#71717a"> = </tspan>
+      <tspan fill="#34d399">"postgres"</tspan>
+    </text>
+    <text x="24" y="260" font-family="monospace" font-size="14" fill="#71717a">}</text>
+  </g>
+
+  <text x="600" y="560" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#71717a">
+    Write JSX with Tailwind-inspired className. Generate production-ready Terraform.
+  </text>
+
+  <text x="600" y="595" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#ff9900" font-weight="600">
+    react2aws.xyz
+  </text>
+</svg>
