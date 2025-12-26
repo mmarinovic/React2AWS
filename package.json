@@ -18,6 +18,7 @@
     "geist": "^1.5.1",
     "jszip": "^3.10.1",
     "lucide-react": "^0.562.0",
+    "lz-string": "^1.5.0",
     "mermaid": "^11.12.2",
     "next": "16.1.1",
     "react": "19.2.3",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/lz-string": "^1.5.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

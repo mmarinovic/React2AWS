@@ -1,15 +1,19 @@
 'use client';
 
-import { useState, useCallback, useMemo, useRef } from 'react';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { Editor } from '@/components/playground/Editor';
 import { Preview } from '@/components/playground/Preview';
 import { TerraformOutput } from '@/components/playground/TerraformOutput';
 import { ExampleSelector } from '@/components/playground/ExampleSelector';
+import { SyntaxReference } from '@/components/playground/SyntaxReference';
+import { HowItWorks } from '@/components/playground/HowItWorks';
+import { ErrorDisplay } from '@/components/playground/ErrorDisplay';
 import { Hero } from '@/components/landing/Hero';
 import { parseJSX } from '@/lib/parser/jsx-parser';
 import { generateTerraformFiles } from '@/lib/generators/terraform';
 import { defaultTemplate, ExampleTemplate } from '@/lib/examples/templates';
-import { Github, Code, Eye, FileCode } from 'lucide-react';
+import { Code, Eye, FileCode, Share2, Check, Link } from 'lucide-react';
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 
 type MobileTab = 'editor' | 'preview' | 'terraform';
 type RightPanelTab = 'preview' | 'terraform';
@@ -19,10 +23,33 @@ export default function Home() {
   const [selectedTemplateId, setSelectedTemplateId] = useState(defaultTemplate.id);
   const [mobileTab, setMobileTab] = useState<MobileTab>('editor');
   const [rightPanelTab, setRightPanelTab] = useState<RightPanelTab>('preview');
+  const [showSyntaxRef, setShowSyntaxRef] = useState(true);
+  const [showHowItWorks, setShowHowItWorks] = useState(true);
+  const [shareStatus, setShareStatus] = useState<'idle' | 'copied'>('idle');
   const playgroundRef = useRef<HTMLElement>(null);
+
+  // Load code from URL on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const sharedCode = params.get('code');
+      if (sharedCode) {
+        try {
+          const decoded = decompressFromEncodedURIComponent(sharedCode);
+          if (decoded) {
+            setCode(decoded);
+            setSelectedTemplateId('');
+          }
+        } catch {
+          // Invalid code parameter, use default
+        }
+      }
+    }
+  }, []);
 
   const handleCodeChange = useCallback((newCode: string) => {
     setCode(newCode);
+    setSelectedTemplateId(''); // Clear template selection when user edits
   }, []);
 
   const handleTemplateSelect = useCallback((template: ExampleTemplate) => {
@@ -33,6 +60,15 @@ export default function Home() {
   const scrollToPlayground = useCallback(() => {
     playgroundRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
+
+  const handleShare = useCallback(async () => {
+    const compressed = compressToEncodedURIComponent(code);
+    const url = `${window.location.origin}${window.location.pathname}?code=${compressed}`;
+
+    await navigator.clipboard.writeText(url);
+    setShareStatus('copied');
+    setTimeout(() => setShareStatus('idle'), 2000);
+  }, [code]);
 
   const parseResult = useMemo(() => parseJSX(code), [code]);
   const terraformFiles = useMemo(() => generateTerraformFiles(parseResult), [parseResult]);
@@ -47,27 +83,42 @@ export default function Home() {
       <section ref={playgroundRef} id="playground" className="border-y border-border bg-white py-12 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Section header */}
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Interactive Playground</h2>
-              <p className="mt-1 text-muted">Edit the JSX and see Terraform generated in real-time</p>
+              <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Infrastructure Studio</h2>
+              <p className="mt-1 text-muted">Design your AWS infrastructure with React components</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <ExampleSelector
                 selectedId={selectedTemplateId}
                 onSelect={handleTemplateSelect}
               />
-              <a
-                href="https://github.com/mmarinovic/React2AWS"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-muted transition-colors hover:bg-surface hover:text-foreground"
+              <button
+                onClick={handleShare}
+                className="flex items-center gap-2 rounded-lg border border-border bg-white px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-surface"
+                title="Share this configuration"
               >
-                <Github className="h-4 w-4" />
-                <span className="hidden sm:inline">GitHub</span>
-              </a>
+                {shareStatus === 'copied' ? (
+                  <>
+                    <Check className="h-4 w-4 text-green-600" />
+                    <span className="hidden sm:inline text-green-600">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Share2 className="h-4 w-4" />
+                    <span className="hidden sm:inline">Share</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
+
+          {/* Error Display */}
+          {parseResult.errors.length > 0 && (
+            <div className="mb-4">
+              <ErrorDisplay errors={parseResult.errors} />
+            </div>
+          )}
 
           {/* Mobile Tab Bar */}
           <div className="mb-4 flex lg:hidden rounded-lg border border-border bg-surface p-1">
@@ -135,7 +186,9 @@ export default function Home() {
                   <Code className="h-4 w-4 text-muted" />
                   <span className="text-sm font-medium text-foreground">Component Editor</span>
                 </div>
-                <span className="text-xs text-muted">JSX + React2AWS</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-muted">Ctrl+Space for autocomplete</span>
+                </div>
               </div>
               <div className="h-[600px]">
                 <Editor value={code} onChange={handleCodeChange} />
@@ -183,6 +236,12 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* Help Section - Below main content */}
+          <div className="mt-8 grid gap-4 lg:grid-cols-2">
+            <HowItWorks isOpen={showHowItWorks} onToggle={() => setShowHowItWorks(!showHowItWorks)} />
+            <SyntaxReference isOpen={showSyntaxRef} onToggle={() => setShowSyntaxRef(!showSyntaxRef)} />
+          </div>
         </div>
       </section>
 
@@ -197,7 +256,7 @@ export default function Home() {
               <span className="font-medium text-foreground">React2AWS</span>
             </div>
             <p className="text-center text-sm text-muted">
-              Made for fun.
+              Build AWS infrastructure the React way
             </p>
             <a
               href="https://github.com/mmarinovic/React2AWS"
@@ -205,7 +264,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground"
             >
-              <Github className="h-4 w-4" />
+              <Link className="h-4 w-4" />
               <span>View Source</span>
             </a>
           </div>
