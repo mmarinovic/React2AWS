@@ -13,46 +13,46 @@ interface EditorProps {
   onChange: (value: string) => void;
 }
 
-// Light theme for CodeMirror
-const lightTheme = EditorView.theme({
+// Dark theme for CodeMirror (VS Code style)
+const darkTheme = EditorView.theme({
   '&': {
-    backgroundColor: '#ffffff',
-    color: '#1e293b',
+    backgroundColor: '#0f172a',
+    color: '#e2e8f0',
   },
   '.cm-content': {
-    caretColor: '#1e293b',
+    caretColor: '#f8fafc',
     fontFamily: 'var(--font-geist-mono), monospace',
   },
   '.cm-cursor': {
-    borderLeftColor: '#1e293b',
+    borderLeftColor: '#f8fafc',
   },
   '.cm-activeLine': {
-    backgroundColor: '#f8fafc',
+    backgroundColor: '#1e293b',
   },
   '.cm-selectionMatch': {
-    backgroundColor: '#dbeafe',
+    backgroundColor: '#334155',
   },
   '&.cm-focused .cm-selectionBackground': {
     backgroundColor: '#3b82f6 !important',
   },
   '.cm-selectionBackground': {
-    backgroundColor: '#93c5fd !important',
+    backgroundColor: '#475569 !important',
   },
   '.cm-content ::selection': {
     backgroundColor: '#3b82f6 !important',
     color: '#ffffff !important',
   },
   '.cm-gutters': {
-    backgroundColor: '#fafafa',
-    color: '#94a3b8',
+    backgroundColor: '#0f172a',
+    color: '#64748b',
     border: 'none',
-    borderRight: '1px solid #e2e8f0',
+    borderRight: '1px solid #334155',
   },
   '.cm-lineNumbers .cm-gutterElement': {
     padding: '0 12px 0 8px',
   },
   '.cm-activeLineGutter': {
-    backgroundColor: '#f1f5f9',
+    backgroundColor: '#1e293b',
   },
 });
 
@@ -99,13 +99,13 @@ export function Editor({ value, onChange }: EditorProps) {
   }, [onChange]);
 
   return (
-    <div className="h-full w-full overflow-hidden rounded-lg border border-border bg-white">
+    <div className="h-full w-full overflow-hidden">
       <CodeMirror
         value={value}
         height="100%"
         extensions={[
           javascript({ jsx: true }),
-          lightTheme,
+          darkTheme,
           syntaxHighlighting(jsxHighlightStyle),
           EditorView.lineWrapping,
           react2awsAutocomplete,

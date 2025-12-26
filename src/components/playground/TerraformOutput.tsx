@@ -1,9 +1,8 @@
 'use client';
 
 import { useState, useMemo, Fragment } from 'react';
-import { Copy, Check, Download } from 'lucide-react';
+import { Copy, Check } from 'lucide-react';
 import { TerraformOutput as TerraformOutputType } from '@/types/aws';
-import JSZip from 'jszip';
 
 interface TerraformOutputProps {
   files: TerraformOutputType | null;
@@ -27,16 +26,16 @@ interface Token {
   value: string;
 }
 
-// Colors for each token type
+// Colors for each token type (dark theme)
 const tokenColors: Record<TokenType, string> = {
-  comment: '#9ca3af',
-  string: '#059669',
-  keyword: '#7c3aed',
-  resource: '#ea580c',
-  number: '#d97706',
-  boolean: '#2563eb',
-  property: '#0284c7',
-  text: '#0a0a0a',
+  comment: '#64748b',
+  string: '#4ade80',
+  keyword: '#c084fc',
+  resource: '#fb923c',
+  number: '#fbbf24',
+  boolean: '#60a5fa',
+  property: '#38bdf8',
+  text: '#e2e8f0',
 };
 
 // Simple tokenizer for HCL
@@ -149,49 +148,28 @@ export function TerraformOutput({ files }: TerraformOutputProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleDownloadAll = async () => {
-    if (!files) return;
-
-    const zip = new JSZip();
-    zip.file('main.tf', files.mainTf);
-    zip.file('variables.tf', files.variablesTf);
-    zip.file('outputs.tf', files.outputsTf);
-    zip.file('backend.tf', files.backendTf);
-    zip.file('terraform.tfvars.example', files.tfvarsExample);
-
-    const blob = await zip.generateAsync({ type: 'blob' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'terraform.zip';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
   const lines = useMemo(() => code.split('\n'), [code]);
 
   if (!files) {
     return (
-      <div className="flex h-full items-center justify-center text-muted">
+      <div className="flex h-full items-center justify-center text-slate-500">
         <p>No resources defined</p>
       </div>
     );
   }
 
   return (
-    <div className="flex h-full flex-col rounded-lg border border-border bg-white">
+    <div className="flex h-full flex-col bg-slate-900">
       {/* File tabs */}
-      <div className="flex items-center gap-1 overflow-x-auto border-b border-border bg-surface px-2 py-1.5">
+      <div className="flex items-center gap-1 overflow-x-auto border-b border-slate-700 bg-slate-800 px-2 py-1.5">
         {FILE_TABS.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
             className={`whitespace-nowrap rounded px-2.5 py-1 text-xs font-medium transition-colors ${
               activeTab === tab.key
-                ? 'bg-white text-foreground shadow-sm'
-                : 'text-muted hover:text-foreground'
+                ? 'bg-slate-900 text-slate-200'
+                : 'text-slate-400 hover:text-slate-200'
             }`}
           >
             {tab.label}
@@ -200,34 +178,26 @@ export function TerraformOutput({ files }: TerraformOutputProps) {
       </div>
 
       {/* Actions bar */}
-      <div className="flex items-center justify-between border-b border-border px-3 py-2 lg:px-4">
+      <div className="flex items-center justify-between border-b border-slate-700 px-3 py-2">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-foreground">{currentFile.filename}</span>
-          <span className="hidden rounded bg-surface px-2 py-0.5 text-xs text-muted sm:inline">Terraform</span>
+          <span className="text-sm font-medium text-slate-300">{currentFile.filename}</span>
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1 rounded-md px-2 py-1.5 text-sm text-muted transition-colors hover:bg-surface hover:text-foreground lg:gap-1.5 lg:px-3"
+            className="flex items-center gap-1 rounded px-2 py-1 text-xs text-slate-400 transition-colors hover:bg-slate-800 hover:text-slate-200"
           >
             {copied ? (
               <>
-                <Check className="h-4 w-4 text-green-600" />
-                <span className="hidden text-green-600 sm:inline">Copied</span>
+                <Check className="h-3.5 w-3.5 text-green-400" />
+                <span className="text-green-400">Copied</span>
               </>
             ) : (
               <>
-                <Copy className="h-4 w-4" />
-                <span className="hidden sm:inline">Copy</span>
+                <Copy className="h-3.5 w-3.5" />
+                <span>Copy</span>
               </>
             )}
-          </button>
-          <button
-            onClick={handleDownloadAll}
-            className="flex items-center gap-1 rounded-md bg-accent px-2 py-1.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover lg:gap-1.5 lg:px-3"
-          >
-            <Download className="h-4 w-4" />
-            <span className="hidden sm:inline">Download All</span>
           </button>
         </div>
       </div>

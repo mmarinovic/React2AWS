@@ -1,288 +1,291 @@
-'use client';
-
-import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
-import { Editor } from '@/components/playground/Editor';
-import { Preview } from '@/components/playground/Preview';
-import { TerraformOutput } from '@/components/playground/TerraformOutput';
-import { ExampleSelector } from '@/components/playground/ExampleSelector';
-import { SyntaxReference } from '@/components/playground/SyntaxReference';
-import { HowItWorks } from '@/components/playground/HowItWorks';
-import { ErrorDisplay } from '@/components/playground/ErrorDisplay';
-import { Hero } from '@/components/landing/Hero';
-import { parseJSX } from '@/lib/parser/jsx-parser';
-import { generateTerraformFiles } from '@/lib/generators/terraform';
-import { defaultTemplate, ExampleTemplate } from '@/lib/examples/templates';
-import { Code, Eye, FileCode, Share2, Check, Link } from 'lucide-react';
-import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
-
-type MobileTab = 'editor' | 'preview' | 'terraform';
-type RightPanelTab = 'preview' | 'terraform';
+import Link from 'next/link';
+import {
+  ArrowRight,
+  Code,
+  Zap,
+  Layers,
+  Database,
+  Container,
+  Globe,
+  Server,
+  CheckCircle,
+  Terminal,
+} from 'lucide-react';
 
 export default function Home() {
-  const [code, setCode] = useState(defaultTemplate.code);
-  const [selectedTemplateId, setSelectedTemplateId] = useState(defaultTemplate.id);
-  const [mobileTab, setMobileTab] = useState<MobileTab>('editor');
-  const [rightPanelTab, setRightPanelTab] = useState<RightPanelTab>('preview');
-  const [showSyntaxRef, setShowSyntaxRef] = useState(true);
-  const [showHowItWorks, setShowHowItWorks] = useState(true);
-  const [shareStatus, setShareStatus] = useState<'idle' | 'copied'>('idle');
-  const playgroundRef = useRef<HTMLElement>(null);
-
-  // Load code from URL on mount
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const sharedCode = params.get('code');
-      if (sharedCode) {
-        try {
-          const decoded = decompressFromEncodedURIComponent(sharedCode);
-          if (decoded) {
-            setCode(decoded);
-            setSelectedTemplateId('');
-          }
-        } catch {
-          // Invalid code parameter, use default
-        }
-      }
-    }
-  }, []);
-
-  const handleCodeChange = useCallback((newCode: string) => {
-    setCode(newCode);
-    setSelectedTemplateId(''); // Clear template selection when user edits
-  }, []);
-
-  const handleTemplateSelect = useCallback((template: ExampleTemplate) => {
-    setCode(template.code);
-    setSelectedTemplateId(template.id);
-  }, []);
-
-  const scrollToPlayground = useCallback(() => {
-    playgroundRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
-
-  const handleShare = useCallback(async () => {
-    const compressed = compressToEncodedURIComponent(code);
-    const url = `${window.location.origin}${window.location.pathname}?code=${compressed}`;
-
-    await navigator.clipboard.writeText(url);
-    setShareStatus('copied');
-    setTimeout(() => setShareStatus('idle'), 2000);
-  }, [code]);
-
-  const parseResult = useMemo(() => parseJSX(code), [code]);
-  const terraformFiles = useMemo(() => generateTerraformFiles(parseResult), [parseResult]);
-  const resourceCount = countResources(parseResult.resources);
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <Hero onTryIt={scrollToPlayground} />
-
-      {/* Playground Section */}
-      <section ref={playgroundRef} id="playground" className="border-y border-border bg-white py-12 lg:py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Section header */}
-          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Infrastructure Studio</h2>
-              <p className="mt-1 text-muted">Design your AWS infrastructure with React components</p>
+    <div className="min-h-screen">
+      {/* Hero Section - Dark */}
+      <section className="relative overflow-hidden bg-slate-900">
+        <div className="absolute inset-0 bg-gradient-to-b from-orange-500/10 via-transparent to-transparent" />
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="text-center">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-800/50 px-4 py-1.5">
+              <span className="text-xs font-medium text-orange-400">New</span>
+              <span className="text-sm text-slate-400">Infrastructure as React Components</span>
             </div>
-            <div className="flex items-center gap-2">
-              <ExampleSelector
-                selectedId={selectedTemplateId}
-                onSelect={handleTemplateSelect}
-              />
-              <button
-                onClick={handleShare}
-                className="flex items-center gap-2 rounded-lg border border-border bg-white px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-surface"
-                title="Share this configuration"
+
+            <h1 className="mx-auto max-w-4xl text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              AWS infrastructure as{' '}
+              <span className="inline-flex items-baseline">
+                <span className="text-orange-400">&lt;</span>
+                <span>React</span>
+                <span className="text-orange-400">/&gt;</span>
+              </span>
+            </h1>
+
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-400">
+              Write JSX with Tailwind CSS-inspired className config. Generate Terraform.
+            </p>
+
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                href="/studio"
+                className="flex items-center gap-2 rounded-lg bg-orange-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-orange-600"
               >
-                {shareStatus === 'copied' ? (
-                  <>
-                    <Check className="h-4 w-4 text-green-600" />
-                    <span className="hidden sm:inline text-green-600">Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Share2 className="h-4 w-4" />
-                    <span className="hidden sm:inline">Share</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Error Display */}
-          {parseResult.errors.length > 0 && (
-            <div className="mb-4">
-              <ErrorDisplay errors={parseResult.errors} />
-            </div>
-          )}
-
-          {/* Mobile Tab Bar */}
-          <div className="mb-4 flex lg:hidden rounded-lg border border-border bg-surface p-1">
-            <button
-              onClick={() => setMobileTab('editor')}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-md py-2 text-sm font-medium transition-colors ${
-                mobileTab === 'editor'
-                  ? 'bg-white text-foreground shadow-sm'
-                  : 'text-muted'
-              }`}
-            >
-              <Code className="h-4 w-4" />
-              <span>Editor</span>
-            </button>
-            <button
-              onClick={() => setMobileTab('preview')}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-md py-2 text-sm font-medium transition-colors ${
-                mobileTab === 'preview'
-                  ? 'bg-white text-foreground shadow-sm'
-                  : 'text-muted'
-              }`}
-            >
-              <Eye className="h-4 w-4" />
-              <span>Preview</span>
-              <span className="rounded-full bg-accent/10 px-1.5 text-xs text-accent">{resourceCount}</span>
-            </button>
-            <button
-              onClick={() => setMobileTab('terraform')}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-md py-2 text-sm font-medium transition-colors ${
-                mobileTab === 'terraform'
-                  ? 'bg-white text-foreground shadow-sm'
-                  : 'text-muted'
-              }`}
-            >
-              <FileCode className="h-4 w-4" />
-              <span>Terraform</span>
-            </button>
-          </div>
-
-          {/* Mobile Content */}
-          <div className="lg:hidden">
-            <div className="h-[500px] overflow-hidden rounded-lg border border-border bg-white">
-              {mobileTab === 'editor' && (
-                <Editor value={code} onChange={handleCodeChange} />
-              )}
-              {mobileTab === 'preview' && (
-                <div className="h-full p-4">
-                  <Preview resources={parseResult.resources} />
-                </div>
-              )}
-              {mobileTab === 'terraform' && (
-                <div className="h-full">
-                  <TerraformOutput files={terraformFiles} />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Desktop Content */}
-          <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6">
-            {/* Left Panel - Editor */}
-            <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm">
-              <div className="flex items-center justify-between border-b border-border bg-surface px-4 py-3">
-                <div className="flex items-center gap-2">
-                  <Code className="h-4 w-4 text-muted" />
-                  <span className="text-sm font-medium text-foreground">Component Editor</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-muted">Ctrl+Space for autocomplete</span>
-                </div>
-              </div>
-              <div className="h-[600px]">
-                <Editor value={code} onChange={handleCodeChange} />
-              </div>
+                Open Studio
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <a
+                href="https://github.com/mmarinovic/React2AWS"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-lg border border-slate-700 px-6 py-3 text-sm font-medium text-slate-300 transition-colors hover:border-slate-600 hover:text-white"
+              >
+                View on GitHub
+              </a>
             </div>
 
-            {/* Right Panel - Preview/Terraform with Tabs */}
-            <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm">
-              {/* Tab Header */}
-              <div className="flex items-center border-b border-border bg-surface">
-                <button
-                  onClick={() => setRightPanelTab('preview')}
-                  className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors ${
-                    rightPanelTab === 'preview'
-                      ? 'border-b-2 border-accent text-accent bg-white'
-                      : 'text-muted hover:text-foreground'
-                  }`}
-                >
-                  <Eye className="h-4 w-4" />
-                  <span>Preview</span>
-                  <span className="rounded-full bg-accent/10 px-1.5 text-xs text-accent">{resourceCount}</span>
-                </button>
-                <button
-                  onClick={() => setRightPanelTab('terraform')}
-                  className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors ${
-                    rightPanelTab === 'terraform'
-                      ? 'border-b-2 border-accent text-accent bg-white'
-                      : 'text-muted hover:text-foreground'
-                  }`}
-                >
-                  <FileCode className="h-4 w-4" />
-                  <span>Terraform</span>
-                </button>
-              </div>
-
-              {/* Tab Content */}
-              <div className="h-[600px] overflow-hidden">
-                {rightPanelTab === 'preview' ? (
-                  <div className="h-full p-4">
-                    <Preview resources={parseResult.resources} />
+            {/* Code Preview */}
+            <div className="mx-auto mt-16 max-w-2xl">
+              <div className="overflow-hidden rounded-xl border border-slate-700 bg-slate-800 shadow-2xl">
+                <div className="flex items-center gap-2 border-b border-slate-700 px-4 py-3">
+                  <div className="flex gap-1.5">
+                    <div className="h-3 w-3 rounded-full bg-red-500" />
+                    <div className="h-3 w-3 rounded-full bg-yellow-500" />
+                    <div className="h-3 w-3 rounded-full bg-green-500" />
                   </div>
-                ) : (
-                  <TerraformOutput files={terraformFiles} />
-                )}
+                  <span className="ml-2 text-sm text-slate-500">infrastructure.jsx</span>
+                </div>
+                <div className="p-6 text-left font-mono text-sm leading-relaxed">
+                  <div className="text-slate-500">{'<'}<span className="text-orange-400 font-semibold">Infrastructure</span>{'>'}</div>
+                  <div className="ml-4 text-slate-500">{'<'}<span className="text-orange-400 font-semibold">VPC</span> <span className="text-purple-400">className</span>=<span className="text-green-400">&quot;cidr-10.0.0.0/16 region-us-east-1&quot;</span>{'>'}</div>
+                  <div className="ml-8 text-slate-500">{'<'}<span className="text-orange-400 font-semibold">RDS</span> <span className="text-purple-400">className</span>=<span className="text-green-400">&quot;engine-postgres multi-az&quot;</span> {'/>'}</div>
+                  <div className="ml-8 text-slate-500">{'<'}<span className="text-orange-400 font-semibold">Fargate</span> <span className="text-purple-400">className</span>=<span className="text-green-400">&quot;mem-2gb cpu-1 port-8080&quot;</span> {'/>'}</div>
+                  <div className="ml-8 text-slate-500">{'<'}<span className="text-orange-400 font-semibold">Lambda</span> <span className="text-purple-400">className</span>=<span className="text-green-400">&quot;runtime-nodejs22&quot;</span> {'/>'}</div>
+                  <div className="ml-4 text-slate-500">{'</'}<span className="text-orange-400 font-semibold">VPC</span>{'>'}</div>
+                  <div className="text-slate-500">{'</'}<span className="text-orange-400 font-semibold">Infrastructure</span>{'>'}</div>
+                </div>
+              </div>
+
+              {/* Output files */}
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
+                <div className="flex items-center gap-1.5 text-slate-400 text-sm">
+                  <Terminal className="h-4 w-4" />
+                  <span>Generates:</span>
+                </div>
+                {['main.tf', 'variables.tf', 'outputs.tf', 'backend.tf'].map((file) => (
+                  <span key={file} className="rounded bg-slate-800 px-2 py-1 font-mono text-xs text-purple-400">
+                    {file}
+                  </span>
+                ))}
               </div>
             </div>
-          </div>
-
-          {/* Help Section - Below main content */}
-          <div className="mt-8 grid gap-4 lg:grid-cols-2">
-            <HowItWorks isOpen={showHowItWorks} onToggle={() => setShowHowItWorks(!showHowItWorks)} />
-            <SyntaxReference isOpen={showSyntaxRef} onToggle={() => setShowSyntaxRef(!showSyntaxRef)} />
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-white py-8">
+      {/* How It Works - Light */}
+      <section className="bg-white py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-slate-900">How It Works</h2>
+            <p className="mt-4 text-slate-600">Three simple steps from JSX to deployed infrastructure</p>
+          </div>
+
+          <div className="mt-16 grid gap-8 md:grid-cols-3">
+            {[
+              {
+                step: '01',
+                title: 'Write JSX',
+                description: 'Define your infrastructure using familiar React component syntax. Use className attributes with Tailwind-inspired prefixes.',
+                icon: Code,
+                color: 'bg-orange-100 text-orange-600',
+              },
+              {
+                step: '02',
+                title: 'Configure with className',
+                description: 'Set resource properties using intuitive prefix-value pairs like engine-postgres, mem-2gb, or multi-az.',
+                icon: Layers,
+                color: 'bg-purple-100 text-purple-600',
+              },
+              {
+                step: '03',
+                title: 'Generate Terraform',
+                description: 'Get production-ready Terraform files with best practices baked in. Download and deploy to AWS.',
+                icon: Zap,
+                color: 'bg-green-100 text-green-600',
+              },
+            ].map((item) => (
+              <div key={item.step} className="relative rounded-xl border border-slate-200 bg-slate-50 p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${item.color}`}>
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                  <span className="text-sm font-medium text-slate-400">{item.step}</span>
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-2 text-sm text-slate-600">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Supported Resources - Dark */}
+      <section className="bg-slate-900 py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-white">Supported AWS Resources</h2>
+            <p className="mt-4 text-slate-400">All the building blocks you need for modern cloud architecture</p>
+          </div>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { name: 'VPC', desc: 'Virtual Private Cloud with subnets, NAT, and routing', icon: Globe, color: 'text-slate-400' },
+              { name: 'RDS', desc: 'PostgreSQL, MySQL, MariaDB with Multi-AZ support', icon: Database, color: 'text-blue-400' },
+              { name: 'Fargate', desc: 'Serverless containers with ECS orchestration', icon: Container, color: 'text-orange-400' },
+              { name: 'Lambda', desc: 'Serverless functions with multiple runtimes', icon: Zap, color: 'text-purple-400' },
+              { name: 'S3', desc: 'Object storage with versioning and encryption', icon: Server, color: 'text-green-400' },
+              { name: 'DynamoDB', desc: 'NoSQL database with on-demand scaling', icon: Database, color: 'text-indigo-400' },
+            ].map((resource) => (
+              <div
+                key={resource.name}
+                className="flex items-start gap-4 rounded-lg border border-slate-800 bg-slate-800/50 p-4"
+              >
+                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-800 ${resource.color}`}>
+                  <resource.icon className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-white">{resource.name}</h3>
+                  <p className="mt-1 text-sm text-slate-400">{resource.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Syntax Examples - Light */}
+      <section className="bg-slate-50 py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-slate-900">Intuitive Syntax</h2>
+            <p className="mt-4 text-slate-600">Configuration that feels natural to React developers</p>
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-2">
+            {[
+              {
+                title: 'Database Configuration',
+                code: '<RDS className="engine-postgres instance-lg storage-100gb multi-az backup-14d" name="main-db" />',
+              },
+              {
+                title: 'Container Service',
+                code: '<Fargate className="mem-2gb cpu-1 port-8080 count-3" name="api-service" />',
+              },
+              {
+                title: 'Serverless Function',
+                code: '<Lambda className="runtime-nodejs22 mem-512mb timeout-30s" name="handler" />',
+              },
+              {
+                title: 'Object Storage',
+                code: '<S3 className="acl-private versioned encrypted" name="uploads" />',
+              },
+            ].map((example) => (
+              <div key={example.title} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                <div className="mb-2 text-sm font-medium text-slate-500">{example.title}</div>
+                <code className="block overflow-x-auto rounded bg-slate-900 p-3 font-mono text-sm text-green-400">
+                  {example.code}
+                </code>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features - Dark */}
+      <section className="bg-slate-900 py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-white">Built for Developers</h2>
+            <p className="mt-4 text-slate-400">Everything you need to ship infrastructure faster</p>
+          </div>
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { title: 'Real-time Preview', desc: 'See your infrastructure as you type' },
+              { title: 'Autocomplete', desc: 'Smart suggestions for components and options' },
+              { title: 'Best Practices', desc: 'Terraform modules with security built-in' },
+              { title: 'Share via URL', desc: 'Collaborate by sharing configuration links' },
+              { title: 'Download as ZIP', desc: 'Get all Terraform files in one click' },
+              { title: 'Zero Setup', desc: 'No installation required, works in browser' },
+            ].map((feature) => (
+              <div key={feature.title} className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 shrink-0 text-green-400" />
+                <div>
+                  <h3 className="font-medium text-white">{feature.title}</h3>
+                  <p className="mt-1 text-sm text-slate-400">{feature.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA - Light */}
+      <section className="bg-white py-20">
+        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-slate-900">Ready to build?</h2>
+          <p className="mt-4 text-slate-600">
+            Start defining your AWS infrastructure with React components today.
+          </p>
+          <div className="mt-8">
+            <Link
+              href="/studio"
+              className="inline-flex items-center gap-2 rounded-lg bg-orange-500 px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-orange-600"
+            >
+              Open Infrastructure Studio
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer - Dark */}
+      <footer className="bg-slate-900 py-8">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded bg-slate-900">
-                <span className="text-xs font-semibold text-white">R2</span>
+              <div className="flex h-7 w-7 items-center justify-center rounded bg-orange-500">
+                <span className="text-xs font-bold text-white">R2</span>
               </div>
-              <span className="font-medium text-foreground">React2AWS</span>
+              <span className="font-medium text-white">React2AWS</span>
             </div>
-            <p className="text-center text-sm text-muted">
+            <p className="text-sm text-slate-500">
               Build AWS infrastructure the React way
             </p>
             <a
               href="https://github.com/mmarinovic/React2AWS"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground"
+              className="text-sm text-slate-400 hover:text-white transition-colors"
             >
-              <Link className="h-4 w-4" />
-              <span>View Source</span>
+              GitHub
             </a>
           </div>
         </div>
       </footer>
     </div>
   );
-}
-
-function countResources(resources: ReturnType<typeof parseJSX>['resources']): number {
-  let count = 0;
-  for (const resource of resources) {
-    if (resource.type !== 'Infrastructure') {
-      count++;
-    }
-    if (resource.children) {
-      count += countResources(resource.children);
-    }
-  }
-  return count;
 }
