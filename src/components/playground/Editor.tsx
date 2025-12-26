@@ -3,7 +3,7 @@
 import { useCallback } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
-import { EditorView } from '@codemirror/view';
+import { EditorView, keymap } from '@codemirror/view';
 import { syntaxHighlighting, HighlightStyle } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
 import { react2awsAutocomplete } from '@/lib/autocomplete';
@@ -109,6 +109,9 @@ export function Editor({ value, onChange }: EditorProps) {
           syntaxHighlighting(jsxHighlightStyle),
           EditorView.lineWrapping,
           react2awsAutocomplete,
+          keymap.of([
+            { key: 'Mod-s', run: () => true }, // Prevent browser save dialog
+          ]),
         ]}
         onChange={handleChange}
         basicSetup={{
