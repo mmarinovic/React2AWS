@@ -9,8 +9,9 @@ import {
   Globe,
   Server,
   CheckCircle,
-  Terminal,
 } from 'lucide-react';
+import { AnimatedCodePreview } from '@/components/landing/AnimatedCodePreview';
+import { SyntaxHighlight } from '@/components/landing/SyntaxHighlight';
 
 export default function Home() {
   return (
@@ -20,13 +21,8 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-orange-500/10 via-transparent to-transparent" />
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
           <div className="text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-800/50 px-4 py-1.5">
-              <span className="text-xs font-medium text-orange-400">New</span>
-              <span className="text-sm text-slate-400">Infrastructure as React Components</span>
-            </div>
-
             <h1 className="mx-auto max-w-4xl text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              AWS infrastructure as{' '}
+              AWS infrastructure as <br /> {' '}
               <span className="inline-flex items-baseline">
                 <span className="text-orange-400">&lt;</span>
                 <span>React</span>
@@ -56,41 +52,8 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Code Preview */}
-            <div className="mx-auto mt-16 max-w-2xl">
-              <div className="overflow-hidden rounded-xl border border-slate-700 bg-slate-800 shadow-2xl">
-                <div className="flex items-center gap-2 border-b border-slate-700 px-4 py-3">
-                  <div className="flex gap-1.5">
-                    <div className="h-3 w-3 rounded-full bg-red-500" />
-                    <div className="h-3 w-3 rounded-full bg-yellow-500" />
-                    <div className="h-3 w-3 rounded-full bg-green-500" />
-                  </div>
-                  <span className="ml-2 text-sm text-slate-500">infrastructure.jsx</span>
-                </div>
-                <div className="p-6 text-left font-mono text-sm leading-relaxed">
-                  <div className="text-slate-500">{'<'}<span className="text-orange-400 font-semibold">Infrastructure</span>{'>'}</div>
-                  <div className="ml-4 text-slate-500">{'<'}<span className="text-orange-400 font-semibold">VPC</span> <span className="text-purple-400">className</span>=<span className="text-green-400">&quot;cidr-10.0.0.0/16 region-us-east-1&quot;</span>{'>'}</div>
-                  <div className="ml-8 text-slate-500">{'<'}<span className="text-orange-400 font-semibold">RDS</span> <span className="text-purple-400">className</span>=<span className="text-green-400">&quot;engine-postgres multi-az&quot;</span> {'/>'}</div>
-                  <div className="ml-8 text-slate-500">{'<'}<span className="text-orange-400 font-semibold">Fargate</span> <span className="text-purple-400">className</span>=<span className="text-green-400">&quot;mem-2gb cpu-1 port-8080&quot;</span> {'/>'}</div>
-                  <div className="ml-8 text-slate-500">{'<'}<span className="text-orange-400 font-semibold">Lambda</span> <span className="text-purple-400">className</span>=<span className="text-green-400">&quot;runtime-nodejs22&quot;</span> {'/>'}</div>
-                  <div className="ml-4 text-slate-500">{'</'}<span className="text-orange-400 font-semibold">VPC</span>{'>'}</div>
-                  <div className="text-slate-500">{'</'}<span className="text-orange-400 font-semibold">Infrastructure</span>{'>'}</div>
-                </div>
-              </div>
-
-              {/* Output files */}
-              <div className="mt-4 flex flex-wrap justify-center gap-2">
-                <div className="flex items-center gap-1.5 text-slate-400 text-sm">
-                  <Terminal className="h-4 w-4" />
-                  <span>Generates:</span>
-                </div>
-                {['main.tf', 'variables.tf', 'outputs.tf', 'backend.tf'].map((file) => (
-                  <span key={file} className="rounded bg-slate-800 px-2 py-1 font-mono text-xs text-purple-400">
-                    {file}
-                  </span>
-                ))}
-              </div>
-            </div>
+            {/* Animated Code Preview */}
+            <AnimatedCodePreview />
           </div>
         </div>
       </section>
@@ -205,9 +168,7 @@ export default function Home() {
             ].map((example) => (
               <div key={example.title} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
                 <div className="mb-2 text-sm font-medium text-slate-500">{example.title}</div>
-                <code className="block overflow-x-auto rounded bg-slate-900 p-3 font-mono text-sm text-green-400">
-                  {example.code}
-                </code>
+                <SyntaxHighlight code={example.code} />
               </div>
             ))}
           </div>

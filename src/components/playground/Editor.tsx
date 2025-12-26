@@ -27,20 +27,16 @@ const darkTheme = EditorView.theme({
     borderLeftColor: '#f8fafc',
   },
   '.cm-activeLine': {
-    backgroundColor: '#1e293b',
+    backgroundColor: 'rgba(59, 130, 246, 0.08)',
   },
   '.cm-selectionMatch': {
-    backgroundColor: '#334155',
+    backgroundColor: '#475569',
   },
-  '&.cm-focused .cm-selectionBackground': {
-    backgroundColor: '#3b82f6 !important',
+  '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-focused .cm-line ::selection, .cm-line ::selection': {
+    backgroundColor: 'rgba(59, 130, 246, 0.35) !important',
   },
-  '.cm-selectionBackground': {
-    backgroundColor: '#475569 !important',
-  },
-  '.cm-content ::selection': {
-    backgroundColor: '#3b82f6 !important',
-    color: '#ffffff !important',
+  '.cm-selectionLayer .cm-selectionBackground': {
+    backgroundColor: 'rgba(59, 130, 246, 0.35) !important',
   },
   '.cm-gutters': {
     backgroundColor: '#0f172a',
@@ -52,7 +48,41 @@ const darkTheme = EditorView.theme({
     padding: '0 12px 0 8px',
   },
   '.cm-activeLineGutter': {
+    backgroundColor: 'rgba(59, 130, 246, 0.08)',
+  },
+  // Autocomplete dropdown styling
+  '.cm-tooltip': {
     backgroundColor: '#1e293b',
+    border: '1px solid #475569',
+    borderRadius: '6px',
+    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.4)',
+  },
+  '.cm-tooltip-autocomplete': {
+    backgroundColor: '#1e293b',
+  },
+  '.cm-tooltip-autocomplete ul': {
+    fontFamily: 'var(--font-geist-mono), monospace',
+  },
+  '.cm-tooltip-autocomplete ul li': {
+    padding: '4px 8px',
+    color: '#e2e8f0',
+  },
+  '.cm-tooltip-autocomplete ul li[aria-selected]': {
+    backgroundColor: '#3b82f6',
+    color: '#ffffff',
+  },
+  '.cm-completionLabel': {
+    color: '#e2e8f0',
+  },
+  '.cm-completionDetail': {
+    color: '#94a3b8',
+    fontStyle: 'italic',
+    marginLeft: '8px',
+  },
+  '.cm-completionMatchedText': {
+    color: '#f97316',
+    fontWeight: '600',
+    textDecoration: 'none',
   },
 });
 
@@ -71,26 +101,26 @@ const jsxHighlightStyle = HighlightStyle.define([
   // Comments
   { tag: tags.comment, color: '#94a3b8', fontStyle: 'italic' },
   // Variables and identifiers
-  { tag: tags.variableName, color: '#1e293b' },
+  { tag: tags.variableName, color: '#e2e8f0' },
   // Property names
-  { tag: tags.propertyName, color: '#2563eb' },
+  { tag: tags.propertyName, color: '#60a5fa' },
   // Type names
-  { tag: tags.typeName, color: '#dc2626' },
+  { tag: tags.typeName, color: '#f87171' },
   // Brackets and punctuation
-  { tag: tags.bracket, color: '#64748b' },
-  { tag: tags.paren, color: '#64748b' },
-  { tag: tags.squareBracket, color: '#64748b' },
-  { tag: tags.brace, color: '#64748b' },
+  { tag: tags.bracket, color: '#94a3b8' },
+  { tag: tags.paren, color: '#94a3b8' },
+  { tag: tags.squareBracket, color: '#94a3b8' },
+  { tag: tags.brace, color: '#94a3b8' },
   // Operators
-  { tag: tags.operator, color: '#64748b' },
+  { tag: tags.operator, color: '#94a3b8' },
   // Boolean
-  { tag: tags.bool, color: '#d97706' },
+  { tag: tags.bool, color: '#fbbf24' },
   // Null/undefined
   { tag: tags.null, color: '#94a3b8' },
   // Function names
-  { tag: tags.function(tags.variableName), color: '#7c3aed' },
+  { tag: tags.function(tags.variableName), color: '#a78bfa' },
   // Definition
-  { tag: tags.definition(tags.variableName), color: '#1e293b', fontWeight: '500' },
+  { tag: tags.definition(tags.variableName), color: '#e2e8f0', fontWeight: '500' },
 ]);
 
 export function Editor({ value, onChange }: EditorProps) {
