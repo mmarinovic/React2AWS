@@ -120,7 +120,7 @@ export function AnimatedCodePreview() {
         setCurrentChar(0);
         setVisibleFiles([]);
         setPhase('typing');
-      }, 3000);
+      }, 1500);
       return () => clearTimeout(timeout);
     }
   }, [phase]);
@@ -140,13 +140,13 @@ export function AnimatedCodePreview() {
     if (currentChar < lineLength) {
       const timeout = setTimeout(() => {
         setCurrentChar((c) => c + 1);
-      }, 25 + Math.random() * 25);
+      }, 15 + Math.random() * 15);
       return () => clearTimeout(timeout);
     } else {
       const timeout = setTimeout(() => {
         setCurrentLine((l) => l + 1);
         setCurrentChar(0);
-      }, 100);
+      }, 50);
       return () => clearTimeout(timeout);
     }
   }, [phase, currentLine, currentChar]);
@@ -158,7 +158,7 @@ export function AnimatedCodePreview() {
     if (visibleFiles.length < outputFiles.length) {
       const timeout = setTimeout(() => {
         setVisibleFiles((f) => [...f, f.length]);
-      }, 400);
+      }, 200);
       return () => clearTimeout(timeout);
     } else {
       const timeout = setTimeout(() => {
@@ -173,7 +173,7 @@ export function AnimatedCodePreview() {
     if (phase !== 'complete') return;
     const timeout = setTimeout(() => {
       setPhase('pause');
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(timeout);
   }, [phase]);
 
