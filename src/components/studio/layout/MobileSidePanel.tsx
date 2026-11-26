@@ -26,7 +26,7 @@ export function MobileSidePanel({
 
   return (
     <div className="absolute inset-0 z-50 md:hidden">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <button type="button" aria-label="Close panel" className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="absolute left-0 top-0 bottom-0 w-72 bg-surface shadow-2xl flex flex-col border-r border-border">
         <div className="flex border-b border-border">
           <button

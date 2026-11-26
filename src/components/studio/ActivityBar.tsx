@@ -28,6 +28,7 @@ export function ActivityBar({ activePanel, onPanelChange }: ActivityBarProps) {
               : 'text-muted hover:bg-surface-elevated hover:text-foreground'
           }`}
           title={item.label}
+          aria-label={item.label}
         >
           <item.icon className="h-5 w-5" />
         </button>

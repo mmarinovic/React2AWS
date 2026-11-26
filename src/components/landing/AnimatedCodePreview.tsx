@@ -127,7 +127,7 @@ export function AnimatedCodePreview() {
 
     const line = codeLines[currentLine];
     if (!line) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      // oxlint-disable-next-line react/set-state-in-effect
       setPhase('generating');
       return;
     }

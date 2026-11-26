@@ -20,8 +20,9 @@ export function Preview({ resources }: PreviewProps) {
   const [key, setKey] = useState(0);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // oxlint-disable-next-line react/set-state-in-effect
     setKey(prev => prev + 1);
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
   }, [resources]);
 
   const flatResources = flattenResources(resources);

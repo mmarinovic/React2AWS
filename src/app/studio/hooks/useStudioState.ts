@@ -58,7 +58,7 @@ export function useStudioState(): StudioState & StudioActions {
         try {
           const decoded = decompressFromEncodedURIComponent(sharedCode);
           if (decoded) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
+            // oxlint-disable-next-line react/set-state-in-effect
             setCode(decoded);
             setSelectedTemplateId('');
           }
