@@ -30,7 +30,7 @@ This file provides guidance to AI coding agents working in this repository.
 
 **Code Quality:**
 
-- `bun run lint` - Run ESLint
+- `bun run lint` - Run oxlint
 
 ## Architecture Overview
 
