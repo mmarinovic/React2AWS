@@ -36,6 +36,16 @@ test.describe('Responsive Layout', () => {
 
       await expect(page.getByText('Share')).toBeVisible();
     });
+
+    test('activity bar buttons have accessible names', async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 900 });
+      const studio = new StudioPage(page);
+      await studio.goto();
+
+      for (const name of ['How it works', 'Syntax Reference', 'Examples']) {
+        await expect(page.getByRole('button', { name, exact: true })).toBeVisible();
+      }
+    });
   });
 
   test.describe('Mobile', () => {
@@ -75,6 +85,19 @@ test.describe('Responsive Layout', () => {
 
       const count = await studio.getResourceCount();
       expect(count).toBe(1);
+    });
+
+    test('side panel opens from menu and closes from backdrop', async ({ page }) => {
+      const studio = new StudioPage(page);
+      await studio.goto();
+
+      await page.getByRole('button', { name: 'Open menu' }).click();
+      const backdrop = page.getByRole('button', { name: 'Close panel' });
+      await expect(backdrop).toBeVisible();
+
+      await backdrop.click({ position: { x: 340, y: 300 } });
+      await expect(backdrop).toBeHidden();
+      await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible();
     });
   });
 

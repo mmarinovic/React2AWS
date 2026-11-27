@@ -58,6 +58,7 @@ export function TitleBar({ mobileMenuOpen, onToggleMobileMenu, shareStatus, onSh
         </button>
         <button
           onClick={onToggleMobileMenu}
+          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           className="flex md:hidden items-center justify-center h-8 w-8 rounded-lg text-muted hover:bg-surface-elevated hover:text-foreground transition-colors ml-1"
         >
           {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
